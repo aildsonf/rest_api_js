@@ -11,12 +11,19 @@ module.exports = {
 
   // retrieve a specific patient
   async read(req, res) {
-    const patient = await Patient.findById(req.params.id);
+    const { id_card } = req.params.id_card;
+    const patient = await Patient.findOne({ id_card });
     return res.json(patient);
   },
 
   async create(req, res) {
+    const { id_card } = req.body;
     try {
+      // avoid data duplication
+      if (await Patient.findOne({ id_card })) {
+        return res.status(400).send({ error: "error: patient already exists" });
+      }
+      // create a new patient
       const patient = await Patient.create(req.body);
       return res.json(patient);
     } catch (err) {
