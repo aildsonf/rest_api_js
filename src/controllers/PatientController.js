@@ -10,13 +10,12 @@ module.exports = {
   },
 
   // retrieve a specific patient
-  async show(req, res) {
+  async read(req, res) {
     const patient = await Patient.findById(req.params.id);
     return res.json(patient);
   },
 
-  // create and store a new patient
-  async store(req, res) {
+  async create(req, res) {
     try {
       const patient = await Patient.create(req.body);
       return res.json(patient);
@@ -32,8 +31,7 @@ module.exports = {
     return res.json(patient);
   },
 
-  // removes a specific patient
-  async destroy(req, res) {
+  async delete(req, res) {
     const patient = await Patient.findByIdAndRemove(req.params.id);
     return res.send("removed");
   },
