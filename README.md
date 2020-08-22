@@ -23,4 +23,12 @@ This Project uses JavaScript + Node.JS and MongoDB
 
 - _In order to use `npm run dev`, install `npm install -D nodemon` as devDependencies_
 - _GET, POST, PUT methods return data in json format_
-- _Replace ':id' with id string attribute present in the previous results_
+
+- *Replace ':id' with _id string attribute*
+```
+   {
+      "_id": "0a000000000b00000cde00fg",
+      ..
+   }
+```
+
