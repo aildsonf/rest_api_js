@@ -11,9 +11,12 @@ module.exports = {
 
   // retrieve a specific patient
   async read(req, res) {
-    const { id_card } = req.params.id_card;
-    const patient = await Patient.findOne({ id_card });
-    return res.json(patient);
+    try {
+      const patient = await Patient.findById(req.params.id);
+      return res.json(patient);
+    } catch (err) {
+      return res.status(400).send({ error: "error: patient not found" });
+    }
   },
 
   async create(req, res) {
