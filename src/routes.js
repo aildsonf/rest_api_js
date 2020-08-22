@@ -1,8 +1,12 @@
 const express = require("express");
 const routes = express.Router();
 
-routes.get("/", (req, res) => {
-  res.send("Everything OK (or at least enough to show this)");
-});
+const PatientController = require("./controllers/PatientController");
+
+routes.get("/patients", PatientController.index);
+routes.get("/patients/:id", PatientController.show);
+routes.post("/patients", PatientController.store);
+routes.put("/patients/:id", PatientController.update);
+routes.delete("/patients/:id", PatientController.destroy);
 
 module.exports = routes;
