@@ -21,5 +21,6 @@ This Project uses JavaScript + Node.JS and MongoDB
    - 3.4. **PUT** api/patients/:id
    - 3.5. **DELETE** api/patients/:id
 
+- _In order to use `npm run dev`, install `npm install -D nodemon` as devDependencies_
 - _GET, POST, PUT methods return data in json format_
 - _Replace ':id' with id string attribute present in the previous results_
