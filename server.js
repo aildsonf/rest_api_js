@@ -6,7 +6,7 @@ const app = express(); // init app
 app.use(express.json()); // allows data exchanging in .json format
 
 // connection to mongodb
-mongoose.connect(requireDir("./src/database"), {
+mongoose.connect(require("./src/database/db_auth"), {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
