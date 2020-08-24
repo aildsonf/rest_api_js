@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Patient = mongoose.model("Patient");
 
 // data manipulation (CRUD functions)
+// HTTP response status codes: https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Status
 module.exports = {
   // list all stored data (with no pagination)
   async index(req, res) {
@@ -15,7 +16,7 @@ module.exports = {
       const patient = await Patient.findById(req.params.id);
       return res.json(patient);
     } catch (err) {
-      return res.status(400).send({ error: "error: patient not found" });
+      return res.status(404).send(err);
     }
   },
 
@@ -24,25 +25,36 @@ module.exports = {
     try {
       // avoid data duplication
       if (await Patient.findOne({ id_card })) {
-        return res.status(400).send({ error: "error: patient already exists" });
+        return res.status(400).send({ error: "patient already exists" });
       }
       // create a new patient
       const patient = await Patient.create(req.body);
       return res.json(patient);
     } catch (err) {
-      return res.status(400).send({ error: "failed" });
+      return res.status(500).send(err);
     }
   },
 
   async update(req, res) {
-    const patient = await Patient.findByIdAndUpdate(req.params.id, req.body, {
-      new: true, // returns updated patient
-    });
-    return res.json(patient);
+    try {
+      const patient = await Patient.findByIdAndUpdate(req.params.id, req.body, {
+        new: true, // returns updated patient
+      });
+      return res.json(patient);
+    } catch (err) {
+      return res.status(500).send(err);
+    }
   },
 
   async delete(req, res) {
-    const patient = await Patient.findByIdAndRemove(req.params.id);
-    return res.send("removed");
+    try {
+      const patient = await Patient.findByIdAndRemove(req.params.id);
+      if (!patient) {
+        res.status(404).send("patient not found or already removed");
+      }
+      return res.send("patient removed");
+    } catch (err) {
+      return res.status(500).send(err);
+    }
   },
 };
